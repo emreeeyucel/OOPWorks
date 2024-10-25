@@ -255,3 +255,86 @@ def main():
 main()
 
 # endregion
+
+
+
+
+# region Task 6
+
+# BasePhone kalıtımlı Samsung, Iphone ve Nokia Sınıfları Yaratalım.
+# Telefon Bilgileri ekrana basan fonksiyon ve her telefonun Kendine özgü sesini belirten bir fonksiyon yaratalım
+# IMEI uudi4() olarak yaratılsın.
+
+from uuid import uuid4
+class BasePhone:
+    def __init__(self, brand: str, model: str, price: float):
+        self.brand = brand
+        self.model = model
+        self.price = price
+        self.id = str(uuid4())
+
+    def get_info(self):
+        print(f'Telefon Bilgisi\n'
+              f'================\n'
+              f'IMEI : {self.id}\n'
+              f'Model : {self.model}\n'
+              f'Brand : {self.brand}\n'
+              f'Price : {self.price} ')
+
+    def phone_ring_sound(self) -> str:
+        return 'Genel Telefon Sesi'
+
+
+class Samsung(BasePhone):
+    def __init__(self, brand, model, price, operating_system: str):
+        super().__init__(brand, model, price)
+        self.operating_system = operating_system
+
+
+    def get_info(self):
+        super().get_info()
+        print(f'System : {self.operating_system}')
+
+    def phone_ring_sound(self) -> str:
+        return 'Samsung Telefon Sesi'
+
+
+class Iphone(BasePhone):
+    def __init__(self, brand, model, price, camera: str):
+        super().__init__(brand, model, price)
+        self.camera = camera
+
+    def get_info(self):
+        super().get_info()
+        print(f'Camera : {self.camera}')
+
+    def phone_ring_sound(self) -> str:
+        return 'Iphone Telefon Sesi'
+
+
+class Nokia(BasePhone):
+    def __init__(self, brand, model, price, antenna: str):
+        super().__init__(brand, model, price)
+        self.antenna = antenna
+
+    def get_info(self):
+        super().get_info()
+        print(f'Antenna : {self.antenna}')
+
+    def phone_ring_sound(self) -> str:
+        return 'Nokia Telefon Sesi'
+
+
+s1 = Samsung('Samsung', 's22', 17000, 'Android  ')
+s1.get_info()
+print(f'Ses Türü :{s1.phone_ring_sound()}')
+print()
+i1 = Iphone('Iphone', '15 Pro Max', 89000, '24 MP ')
+i1.get_info()
+print(f'Ses Türü : {i1.phone_ring_sound()}')
+print()
+n1 = Nokia('Nokia', '5110', 3000, 'Var')
+n1.get_info()
+print(f'Ses Türü : {n1.phone_ring_sound()}')
+
+# endregion
