@@ -338,3 +338,82 @@ n1.get_info()
 print(f'Ses Türü : {n1.phone_ring_sound()}')
 
 # endregion
+
+
+
+
+# region Task 7
+
+# Basebill kalıtımlı WaterBill, ElectrictyBill, NaturalGasBill sınıfları yaratalım.
+# Ödenecek tutarları hesapladıktan sonra hem çıktısını verelim hem de log kaydı oluşturup dosyada saklayalım
+
+from datetime import datetime
+
+class BaseBill:
+    def __init__(self, bill_name: str, value_ad_task: float, amount: float):
+        self.bill_name = bill_name
+        self.value_ad_task = value_ad_task
+        self.amount = amount
+
+    def calculate_bill(self) -> float:
+        return self.amount * self.value_ad_task
+
+    def create_log(self):
+        with open(
+            file='Create_log.txt',
+            mode='a',
+            encoding='utf-8'
+        ) as file:
+            file.write(f'Fatura Bilgisi : {self.bill_name}\n'
+                       f'Ödenecek Tutar : {self.calculate_bill()}\n'
+                       f'Tarih : {datetime.now()}\n')
+
+class WaterBill(BaseBill):
+    def __init__(self, mill: int, bill_name, value_ad_task, amount):
+        super().__init__(bill_name, value_ad_task, amount)
+        self.mill = mill
+
+    def calculate_bill(self):
+        return super().calculate_bill() * self.mill
+
+
+class ElectrictyBill(BaseBill):
+    def __init__(self, kw: int, bill_name, value_ad_task, amount):
+        super().__init__(bill_name, value_ad_task, amount)
+        self.kw = kw
+
+    def calculate_bill(self):
+        return self.amount * self.value_ad_task * self.kw
+
+
+class NaturalGasBill(BaseBill):
+    def __init__(self, m3: int, bill_name, value_ad_task, amount):
+        super().__init__(bill_name, value_ad_task, amount)
+        self.m3 = m3
+
+    def calculate_bill(self):
+        return self.amount * self.value_ad_task * self.m3
+
+
+while True:
+    proces = input('Fatura Bilgisi : ')
+
+    match proces:
+        case 'Su Faturası':
+            w1 = WaterBill(3, 'Su Faturası', 2, 10)
+            print(w1.calculate_bill())
+            w1.create_log()
+        case 'Elektrik Faturası':
+            e1 = ElectrictyBill(4, 'Elektrik Faturası', 2, 10)
+            print(e1.calculate_bill())
+            e1.create_log()
+        case 'Doğalgaz Faturası':
+            g1 = NaturalGasBill(5, 'Gaz Faturası', 2, 10)
+            print(g1.calculate_bill())
+            g1.create_log()
+        case _:
+            print(f'Sadece Su Faturası, Elektrik Faturası ve Doğalgaz Faturası sonucuna ulaşabilirsiniz. ')
+            with open(file='System.txt', mode='a', encoding='utf-8') as file:
+                file.write(f'Müşterimiz Yanlış Fatura Bilgisi Girişi Yaptı . . ')
+
+# endregion
