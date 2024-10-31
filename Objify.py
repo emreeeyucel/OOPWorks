@@ -417,3 +417,60 @@ while True:
                 file.write(f'Müşterimiz Yanlış Fatura Bilgisi Girişi Yaptı . . ')
 
 # endregion
+
+
+
+
+# region Task 8
+
+# BaseEntity Kalıtımlı Araç sınıfı yaratalım.
+# Araba sınıfında brand , model --> object attribute
+# Değer ve şaşi numarası encapsule edilsin ve araba değeri sfırdan büyükse ürün yaratılsın.
+# Araba statüsünü Enum ile belirtelim.
+
+from uuid import uuid4
+from datetime import datetime
+from socket import gethostname, gethostbyname
+from enum import Enum
+from pprint import pprint
+
+class Status(Enum):
+    Active = 1
+    Modified = 2
+    Passive = 3
+
+class BaseEntity:
+    def __init__(self):
+          self.__create_date = ''
+          self.__created_computer_name = ''
+          self.__created_ip_address = ''
+          self.__status = ''
+
+    def set_values(self):
+          self.__create_date = datetime.now()
+          self.__created_computer_name = gethostname()
+          self.__created_ip_address = gethostbyname(gethostname())
+          self.__status = Status.Active.name
+
+class Vehicle(BaseEntity):
+      def __init__(self, model: str, brand: str):
+            super().__init__()
+            self.model = model
+            self.brand = brand
+            self.__vin = ''
+            self.__price = 0
+
+      def set_values(self, price: float):
+            if price > 0:
+                  self.__vin = str(uuid4())
+                  self.__price = price
+                  super().set_values()
+
+            print(f'{self.__vin} Şaşi Numaralı Araç Kayıtlara Eklenmiştir.')
+            print()
+            pprint(self.__dict__)
+
+v1 = Vehicle('OMODA 5', 'CHERY')
+v1.set_values(1300000)
+
+# endregion
