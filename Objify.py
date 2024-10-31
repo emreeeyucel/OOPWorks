@@ -474,3 +474,47 @@ v1 = Vehicle('OMODA 5', 'CHERY')
 v1.set_values(1300000)
 
 # endregion
+
+
+
+
+#region Task 9
+
+# Toplama, Üs Alma, Faktöriyel Hesaplamalarının Sonuçlarının Kaç Saniyede Hesaplandığını Bulan Dekoratör Yazalım
+
+from math import pow, factorial
+from time import sleep, time
+
+def calculate_time_execute(funcution):
+    def inner_func(*args, **kwargs):
+        start_time = time()
+        sleep(2)
+        func = funcution(*args, **kwargs)
+        end_time = time()
+        print(f'Start Time : {start_time}\n'
+              f'End Time : {end_time}\n'
+              f'Result : {end_time - start_time}\n'
+              f'====================================')
+
+    return inner_func
+
+@calculate_time_execute
+def us_alma(a: int, b: int):
+    print(f'Sonuç : {pow(a, b)}')
+
+
+@calculate_time_execute
+def faktoriyel_hesaplama(a: int):
+    print(f'Faktöriyel : {factorial(a)}')
+
+@calculate_time_execute
+def toplam(x: int, y: int, z: int):
+    print(f'Sonuç : {x + y + z}')
+
+
+us_alma(1,4)
+faktoriyel_hesaplama(4)
+toplam(1, 2, 3)
+
+
+# endregion
