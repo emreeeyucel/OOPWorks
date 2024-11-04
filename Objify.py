@@ -518,3 +518,62 @@ toplam(1, 2, 3)
 
 
 # endregion
+
+
+
+
+# region Task 10
+# 2 sayının Toplamını yazan ve sonucun Loglarını tutan  Dekoratör Yazalım
+
+from socket import gethostname, gethostbyname
+from datetime import datetime
+
+def log_decorators(funcution):
+    def inner_func(*args, **kwargs):
+        func = funcution(*args, **kwargs)
+        with open(file='Decorators.Log.txt', mode='a', encoding='utf-8') as file:
+            file.write(f'İşlem Sonucu : {func}\n'
+                       f'Hesaplamayı Yapan Makine : {gethostname()}\n'
+                       f'Makine Ip : {gethostbyname(gethostname())}\n'
+                       f'İşlem Tarih ve Saati : {datetime.now()}\n')
+        return func
+    return inner_func
+
+@log_decorators
+def toplama(a: int, b: int):
+    return a + b
+
+a = int(input('1. Sayı : '))
+b = int(input('2. Sayı : '))
+print(toplama(a, b))
+
+# endregion
+
+
+
+
+# region Task 11
+# Yetkilendirme Yapan Dekoratör Yazalım
+
+def reguired_login(function):
+    def inner_func(user):
+        if user.get('role') != 'admin':
+            return 'User has not authorize'
+
+        return function(user)
+
+    return inner_func
+
+@reguired_login
+def redirect_dashboard(user: dict):
+    return f'{user.get("user name")} dashboard page has been opening..!'
+
+
+print(
+    redirect_dashboard({
+        'user name': 'beast',
+        'password': '123',
+        'role': 'admin'})
+)
+
+# endregion
