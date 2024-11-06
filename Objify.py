@@ -577,3 +577,32 @@ print(
 )
 
 # endregion
+
+
+
+
+# region Task 12
+
+# Karakterleri Dönüştüren Dekoratör Yazalım
+
+def convert_character(function):
+    def inner_func(*args, **kwargs):
+        func = function(*args, **kwargs)
+        last_version = func.replace('İ', 'I').replace('Ü', 'U')
+        return last_version
+
+    return inner_func
+
+@convert_character
+def greeting_people(name: str):
+    return f'Welcome {name}'
+
+@convert_character
+def create_email(firs_name: str, last_name: str):
+    return f'{firs_name}.{last_name}@hotmail.com'
+
+
+print(greeting_people('İpek Üzüm'))
+print(create_email('İpek', 'Üzümcü'))
+
+# endregion
