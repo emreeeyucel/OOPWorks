@@ -606,3 +606,86 @@ print(greeting_people('İpek Üzüm'))
 print(create_email('İpek', 'Üzümcü'))
 
 # endregion
+
+
+
+
+#region Task 13
+# Müzik Aletleri ve Müzisyen yaratalım.
+
+from abc import ABC, abstractmethod
+
+class BaseMuzikAleti:
+    def __init__(self, brand, model):
+        self.model = model
+        self.brand = brand
+
+class Gitar(BaseMuzikAleti):
+    def __init__(self, brand, model, tel):
+        super().__init__(brand, model)
+        self.tel = tel
+
+class Keman(BaseMuzikAleti):
+    def __init__(self, brand, model, govde):
+        super().__init__(brand, model)
+        self.govde = govde
+
+class Muzisyen:
+    def __init__(self, first_name, last_name):
+        self.last_name = last_name
+        self.first_name = first_name
+        self.caldigi_enstrumanlar = []
+
+class BaseService(ABC):
+
+    @abstractmethod
+    def call_sound(self) -> str: pass
+
+    def hello_word(self):
+        print('Hi')
+    @abstractmethod
+    def harmonize(self) -> str: pass
+
+class GitarService(BaseService):
+
+    def harmonize(self) -> str:
+        return 'Akord Edildi'
+
+    def call_sound(self) -> str:
+        return 'Gitar Sesi'
+
+    def pena(self):
+        return 'Pena değiştirildi'
+
+class KemanService(BaseService):
+    def call_sound(self) -> str:
+        return 'Keman Sesi'
+
+    def harmonize(self) -> str:
+        return 'Akord Edildi'
+
+
+    def hello_word(self):
+        print('Beni Dinlediğiniz İçin Teşekkürler . . ')
+
+def main():
+    gitar_service = GitarService()
+
+    gitar = Gitar('Fender', 'ESP LTD EC-1000', 'Elixir Nanoweb')
+    keman = Keman('Gliga', 'Gliga Maestro', 'Abonoz')
+
+    muzisyen = Muzisyen('Emre', 'Yücel')
+
+    muzisyen.caldigi_enstrumanlar.append(gitar)
+    muzisyen.caldigi_enstrumanlar.append(keman)
+
+    print(f'Ad : {muzisyen.first_name}\n'
+          f'Soyad: {muzisyen.last_name}\n'
+          f'Brand: {muzisyen.caldigi_enstrumanlar[0].brand}\n'
+          f'Model  : {muzisyen.caldigi_enstrumanlar[0].model}\n'
+          f'Çıkardığı Ses :{gitar_service.call_sound()}\n'
+          f'Akor Durumu : {gitar_service.harmonize()} ')
+
+main()
+
+# endregion
