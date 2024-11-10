@@ -689,3 +689,96 @@ def main():
 main()
 
 # endregion
+
+
+
+
+# region Task 14
+
+# Fatura oluşturualım ve Sisteme giren kişinin fatura bilgisinin log kayıtlarını tutup ardından log kayıtlarını ekrana basalım
+# Sadece log kaydını calıstır sistem log dosyasını sonrada ekrana basılsın.
+
+import datetime
+from abc import abstractmethod, ABC
+from datetime import datetime
+class BaseBill:
+    def __init__(self, bill_name:str, value_ad_task: float, amount: float):
+        self.bill_name = bill_name
+        self.value_ad_task = value_ad_task
+        self.amount = amount
+
+class ElectricBill(BaseBill):
+    def __init__(self,bill_name, value_ad_task, amount, kw: float):
+        super().__init__(bill_name, value_ad_task, amount)
+        self.kw = kw
+
+
+class WaterBill(BaseBill):
+    def __init__(self,bill_name, value_ad_task, amount, mill: float):
+        super().__init__(bill_name, value_ad_task, amount)
+        self.mill = mill
+
+
+class GassBill(BaseBill):
+    def __init__(self,bill_name, value_ad_task, amount, m3: float):
+        super().__init__(bill_name, value_ad_task, amount)
+        self.m3 = m3
+
+
+class BaseService(ABC):
+    @abstractmethod
+    def hesaplama(self, bill: BaseBill):
+        pass
+
+    def log(self, bill: BaseBill, sonuc: float):
+        with open(
+            file='log.txt',
+            mode='w',
+            encoding='utf-8'
+        ) as file:
+            file.write(f'Fatura Adı : {bill.bill_name}\n'
+                       f'Fatura Tutarı : {sonuc}\n'
+                       f'Fatura Tarihi : {datetime.now()}\n')
+
+
+class WaterBillService(BaseService):
+    def hesaplama(self, bill: WaterBill):
+        return bill.mill * bill.value_ad_task * bill.amount
+
+class ElectricBillService(BaseService):
+    def hesaplama(self, bill: ElectricBill):
+        return bill.kw * bill.value_ad_task * bill.amount
+
+class GassBillService(BaseService):
+    def hesaplama(self, bill: GassBill):
+        return bill.m3 * bill.value_ad_task * bill.amount
+
+
+
+def main():
+    e1 = ElectricBill('Elektrik Faturası', 10, 5, 4)
+    w1 = WaterBill('Su Faturası', 7, 4, 6)
+    g1 = GassBill('Gaz Faturası', 2 , 3, 6)
+
+    islem = input(f'Hangi Faturayı Ödemek istediniz: ')
+
+    match islem:
+        case 'elektrik':
+            pass
+        case 'su':
+            waterservice = WaterBillService()
+            sonuc = waterservice.hesaplama(w1)
+            waterservice.log(w1, sonuc)
+            with open(
+                    file='log.txt',
+                    mode='r',
+                    encoding='utf-8'
+            ) as file:
+                for i in file.readlines():
+                    print(i)
+        case 'gaz':
+            pass
+
+main()
+
+# endregion
